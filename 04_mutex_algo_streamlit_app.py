@@ -68,6 +68,36 @@ if current_holder:
 else:
     st.info("The resource is currently free.")
 
+# ==========================================
+# --- NEW COLLISION CODE INSERTED HERE ---
+# ==========================================
+st.divider()
+st.subheader("💥 Collision Demonstration (Tie-Breaker)")
+
+if st.button("Simulate Concurrent Request (P1 & P2)", type="primary"):
+    # 1. Temporarily disconnect the network to prevent instant clock updates
+    st.session_state.p1.network = None
+    st.session_state.p2.network = None
+    
+    # 2. Both processes request at the exact same logical time
+    st.session_state.p1.request_resource()
+    st.session_state.p2.request_resource()
+    
+    # 3. Reconnect the network
+    st.session_state.p1.network = st.session_state.net
+    st.session_state.p2.network = st.session_state.net
+    
+    # 4. Broadcast the frozen requests to the rest of the network
+    msg1 = Message('REQUEST', 1, st.session_state.p1.clock)
+    msg2 = Message('REQUEST', 2, st.session_state.p2.clock)
+    
+    st.session_state.net.broadcast(1, msg1)
+    st.session_state.net.broadcast(2, msg2)
+    
+    check_all_grants()
+    st.rerun()
+# ==========================================
+
 st.divider()
 
 # --- 4. Live System State ---
