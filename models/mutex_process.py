@@ -31,7 +31,7 @@ class Process:
     def receive(self, msg):
         self.clock = max(self.clock, msg.ts) + 1
         sender = msg.sender
-        self.last_msg_timestamp[sender] = self.clock
+        self.last_msg_timestamp[sender] = msg.ts
 
         if msg.type == 'REQUEST':
             heapq.heappush(self.queue, (msg.ts, sender))
