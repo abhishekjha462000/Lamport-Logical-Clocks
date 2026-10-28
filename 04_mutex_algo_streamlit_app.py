@@ -3,6 +3,7 @@ import pandas as pd
 
 from models.mutex_process import Process
 from services.network import Network
+from models.message import Message
 
 # --- 1. Initialize Session State ---
 if 'net' not in st.session_state:
@@ -69,7 +70,7 @@ else:
     st.info("The resource is currently free.")
 
 # ==========================================
-# --- NEW COLLISION CODE INSERTED HERE ---
+# --- COLLISION DEMONSTRATION SECTION ---
 # ==========================================
 st.divider()
 st.subheader("💥 Collision Demonstration (Tie-Breaker)")
